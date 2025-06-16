@@ -8,7 +8,7 @@ export default function FB0529() {
   // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyAeE67hy8ERjLpFubylonaAEcrGUzbwW54",
+  apiKey: "",
   authDomain: "nccu-web-design.firebaseapp.com",
   projectId: "nccu-web-design",
   storageBucket: "nccu-web-design.firebasestorage.app",
