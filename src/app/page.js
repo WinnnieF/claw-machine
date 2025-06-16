@@ -8,31 +8,23 @@ import { Vector3 } from "three";
 import gsap from 'gsap';
 import Swal from 'sweetalert2'
 
-
-
 function ClawModel({clawPos, isLowering, hasPrize}) {
   const clawModel = useGLTF(`claw.glb`);
   const clawModelRef = useRef();
 
   useFrame((state) => {
     if (clawModelRef.current) {
-      
       clawModelRef.current.traverse((child) => {
-
         if (child.name === 'claw') {
           child.position.set(clawPos.x, clawPos.y, clawPos.z);
         }
-
         if(isLowering) return;
-
         if (child.name === 'clawBase') {
           child.position.set(clawPos.x, clawPos.y+0.15, clawPos.z);
         }
-
         if (child.name === 'track') {
           child.position.set(0.011943, clawPos.y+0.15, clawPos.z);
         }
-
         if (child.name === 'bear') {
           child.visible = hasPrize;
         }
@@ -51,11 +43,8 @@ function ClawModel({clawPos, isLowering, hasPrize}) {
   );
 }
 
-
 function Camera({setClawPos, boxRef, clawPos, isLowering, setIsLowering, hasPrize, setHasPrize}) {
   const cameraRef = useRef();
-  
-  //  [注意] useFrame and useKeyboardControls 都需要放在 Canvas 的子组件中
   
   useFrame(() => {
     if (cameraRef.current) {
@@ -64,7 +53,6 @@ function Camera({setClawPos, boxRef, clawPos, isLowering, setIsLowering, hasPriz
   });
 
   const [, getKeys] = useKeyboardControls();
-
 
   useFrame((state) => {
     const { forward, backward, left, right, jump } = getKeys();
@@ -105,14 +93,9 @@ function Camera({setClawPos, boxRef, clawPos, isLowering, setIsLowering, hasPriz
           console.log('jump');
           setIsLowering(true);
           
-          //setClawPos with gsap
-          console.log("down");
-
-          
           const random = Math.random();
           let prizeWon = null; 
-
-         
+          
           if (random < 0.1) { 
               prizeWon = 'big';
           } else if (random < 0.35) { 
@@ -121,14 +104,11 @@ function Camera({setClawPos, boxRef, clawPos, isLowering, setIsLowering, hasPriz
               prizeWon = 'small';
           }
           
-          // Has Prize 在這裡不會被更新，給同學練習
           setHasPrize(prizeWon !== null); 
           
-          //gsap convet to timeline
            gsap.timeline().to(clawPos, { y: 2, duration: 2})
             .to(clawPos, { y: 2.7, duration: 3})
             .then(() => {
-
               setIsLowering(false);
               if (prizeWon === 'big') {
                 console.log("恭喜抽中大獎！");
@@ -137,19 +117,19 @@ function Camera({setClawPos, boxRef, clawPos, isLowering, setIsLowering, hasPriz
                   text: '恭喜你抽到大獎:樂園一日門票2張!',
                   icon: 'success', 
                   confirmButtonText: '確定',
-                  
+                  customClass: { 
+                    popup: 'my-sweet-alert-popup',
+                    image: 'rounded-gif'
+                  },
                   background: '#FFFFFF', 
                   color: '#E74635', 
                   confirmButtonColor: '#E74635', 
                   showCloseButton: true,
                   backdrop: `rgba(0,0,0,0.6)`, 
-                  
-                  
                   imageUrl: '/big.gif', 
                   imageWidth: 180, 
                   imageHeight: 180, 
                   imageAlt: '中大獎動畫', 
-                  
                   width: '500px', 
                   padding: '1em', 
                   showClass: {
@@ -167,20 +147,17 @@ function Camera({setClawPos, boxRef, clawPos, isLowering, setIsLowering, hasPriz
                   icon: 'success',
                   confirmButtonText: '確定',
                   customClass: { 
-                    popup: 'my-sweet-alert-popup'
+                    popup: 'my-sweet-alert-popup',
+                    image: 'rounded-gif'
                   },
-                 
                   background: '#E7E7E7', 
                   color: '#333333', 
                   confirmButtonColor: '#E74635', 
                   showCloseButton: true,
                   backdrop: `rgba(0,0,0,0.4)`, 
-                  
-                  
                   imageUrl: '/mid.gif', 
                   imageWidth: 150, 
                   imageHeight: 150, 
-
                   width: '500px',
                   padding: '1em',
                 });
@@ -192,20 +169,18 @@ function Camera({setClawPos, boxRef, clawPos, isLowering, setIsLowering, hasPriz
                   icon: 'warning', 
                   confirmButtonText: '確定',
                   customClass: { 
-                    popup: 'my-sweet-alert-popup'
+                    popup: 'my-sweet-alert-popup',
+                    image: 'rounded-gif'
                   },
                   background: '#FFFFFF', 
                   color: '#E74635', 
                   confirmButtonColor: '#AA352C', 
                   showCloseButton: true,
                   backdrop: `rgba(0,0,0,0.6)`, 
-
-                  
                   imageUrl: '/comfort.gif', 
                   imageWidth: 180, 
                   imageHeight: 180, 
                   imageAlt: '安慰獎動畫', 
-                  
                   width: '500px',
                   padding: '1em',
                   showClass: {
@@ -223,20 +198,18 @@ function Camera({setClawPos, boxRef, clawPos, isLowering, setIsLowering, hasPriz
                   icon: 'error',
                   confirmButtonText: '確定',
                   customClass: { 
-                    popup: 'my-sweet-alert-popup'
+                    popup: 'my-sweet-alert-popup',
+                    image: 'rounded-gif'
                   },
                   background: '#333333', 
                   color: '#E7E7E7', 
                   confirmButtonColor: '#E74635',
                   showCloseButton: true,
                   backdrop: `rgba(0,0,0,0.8)`, 
-
-                
                   imageUrl: '/no.gif', 
                   imageWidth: 180, 
                   imageHeight: 180, 
                   imageAlt: '沒中獎動畫', 
-                  
                   width: '500px',
                   padding: '1em',
                   showClass: {
@@ -248,11 +221,8 @@ function Camera({setClawPos, boxRef, clawPos, isLowering, setIsLowering, hasPriz
                 });
               }
             });
-
         }
-        
       }
-      
     }
   })
 
@@ -260,12 +230,10 @@ function Camera({setClawPos, boxRef, clawPos, isLowering, setIsLowering, hasPriz
     <PerspectiveCamera
       ref={cameraRef}
       makeDefault
-      position={[0, 1, 3]} // 3 ~ 6
+      position={[0, 1, 3]} 
     />
   );
 }
-
-
 
 export default function Home() {
   const boxRef = useRef();
@@ -275,6 +243,14 @@ export default function Home() {
   const [isLowering, setIsLowering] = useState(false);
   const [hasPrize, setHasPrize] = useState(false);
 
+  useEffect(() => {
+    const preloader = document.getElementById('page-preloader');
+    if (preloader) {
+      setTimeout(() => {
+        preloader.classList.add('hidden');
+      }, 1500);
+    }
+  }, []);
 
   return (
     <div className="w-full h-screen">
@@ -292,7 +268,6 @@ export default function Home() {
           <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} decay={0} intensity={Math.PI} />
           <pointLight position={[-10, -10, -10]} decay={0} intensity={Math.PI} />
           
-
           {
             !isHidden && <RoundedBox
               args={[1, 1, 1]} 
@@ -309,17 +284,14 @@ export default function Home() {
             <meshPhongMaterial color="#f3f3f3"/>
           </Box>
 
-
           <Suspense fallback={null}>
             <ClawModel clawPos={clawPos} isLowering={isLowering} hasPrize={hasPrize} />
           </Suspense>
 
-
           <Environment
             background={true}
-            files="/boma_2k.exr" // 指向 public 裡的 exr
+            files="/boma_2k.exr" 
             />
-
 
           <ContactShadows opacity={1} scale={10} blur={10} far={10} resolution={256} color="#DDDDDD" />
 
@@ -328,7 +300,6 @@ export default function Home() {
           />
           <CameraControls enablePan={false} enableZoom={false} />
           <axesHelper args={[10]} />
-
 
         </Canvas>
       </KeyboardControls>

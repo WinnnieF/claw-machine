@@ -33,3 +33,49 @@ body {
 .swal2-confirm {
   border-radius: 15px !important; 
 }
+
+.preloader {
+  position: fixed; /* 固定定位，覆蓋整個視窗 */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #E7E7E7; /* 淺灰背景，符合你的主題色 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; /* 確保它在最上層 */
+  transition: opacity 0.5s ease-out, visibility 0.5s ease-out; /* 隱藏時的過渡效果 */
+}
+
+.preloader.hidden {
+  opacity: 0; /* 隱藏時變透明 */
+  visibility: hidden; /* 隱藏元素 */
+  pointer-events: none; /* 隱藏後不阻擋點擊事件 */
+}
+
+/* 簡單的 CSS Loading Spinner */
+.loader {
+  border: 8px solid #f3f3f3; /* Light grey */
+  border-top: 8px solid #E74635; /* Red border */
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 1s linear infinite; /* 旋轉動畫 */
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* 如果你想用 GIF 作為 loading 符號 */
+/* 你可以在 .loader 裡面放一個 img 標籤，並給它樣式 */
+/*
+.loader img {
+  width: 100px;
+  height: 100px;
+  border-radius: 15px; // 如果 GIF 也想圓角
+  // 其他居中或定位樣式
+}
+*/
